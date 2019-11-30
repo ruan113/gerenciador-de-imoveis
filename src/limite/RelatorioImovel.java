@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package limite;
 
 import controle.ControlePrincipal;
@@ -15,10 +10,6 @@ import Model.CorretorContratado;
 import Model.Imovel;
 import Model.Venda;
 
-/**
- *
- * @author Ruan
- */
 public class RelatorioImovel extends javax.swing.JFrame {
 
     /**

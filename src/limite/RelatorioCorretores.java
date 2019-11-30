@@ -1,6 +1,3 @@
-//BRUNO GUILHERME LUNARDI
-//RUAN MICHEL ADABO
-//IAN MARCELO TOBAR
 package limite;
 
 import controle.ControlePrincipal;
