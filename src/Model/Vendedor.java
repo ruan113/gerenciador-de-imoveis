@@ -1,6 +1,8 @@
 package Model;
 
-public class Vendedor extends Pessoa {
+import java.io.Serializable;
+
+public class Vendedor extends Pessoa implements Serializable {
 
     private String contatoPref;
 

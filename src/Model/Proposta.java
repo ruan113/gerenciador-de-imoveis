@@ -1,9 +1,10 @@
 
 package Model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Proposta {
+public class Proposta implements Serializable{
     private Calendar data;
     private Comprador comprador;
     private Corretor corretor;

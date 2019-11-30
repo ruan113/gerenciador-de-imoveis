@@ -1,6 +1,9 @@
 package Model;
 
-public abstract class Pessoa {
+import java.io.Serializable;
+
+public abstract class Pessoa implements Serializable {
+
     private String cpf;
     private String nome;
     private String email;
@@ -28,7 +31,5 @@ public abstract class Pessoa {
     public String getFone() {
         return fone;
     }
-    
-    
-    
+
 }
