@@ -1,8 +1,6 @@
-//BRUNO GUILHERME LUNARDI
-//RUAN MICHEL ADABO
-//IAN MARCELO TOBAR
 package controle;
 
+import Model.Imovel;
 import java.util.*;
 
 import controle.*;
@@ -15,9 +13,7 @@ import javax.swing.JOptionPane;
 
 import limite.*;
 
-import modelo.*;
-
-public class ControleImovel {//abre classe ControleImovel
+public class ControleImovel {
 
     public ControlePrincipal ctrPrincipal;
 
@@ -26,7 +22,7 @@ public class ControleImovel {//abre classe ControleImovel
     private ArrayList<Imovel> listaImoveis = new ArrayList<Imovel>();
 
     //construtor 01
-    public ControleImovel(ControlePrincipal ctrPrincipal) {//abre construtor 01
+    public ControleImovel(ControlePrincipal ctrPrincipal) {
 
         this.ctrPrincipal = ctrPrincipal;
         lmtImovel = new LimiteImovel(this);
@@ -37,11 +33,38 @@ public class ControleImovel {//abre classe ControleImovel
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao abrir arquivo", JOptionPane.ERROR_MESSAGE);
         }
 
-    }//fecha construtor 01
+    }
 
-    public void cadastraImovel(int codigo, String tipo, String descricao, String nomeProprietario, double precoSolicitado, Calendar data) {
+    public void cadastraImovel(int codigo, String tipo,
+            String descricao, String arquivoFoto, double preco, 
+            String comissao, String dataInclusao, String vendedor_cpf) {
 
-        listaImoveis.add(new Imovel(codigo, tipo, descricao, nomeProprietario, precoSolicitado, data));
+        //Formata data
+        Calendar data = Calendar.getInstance();
+
+        if (!dataInclusao.isEmpty()) {
+            String[] aux = dataInclusao.split("/"); //separa a string em partes
+            //para coloca-las na posicao ideal
+            data.set(Calendar.DAY_OF_MONTH, Integer.parseInt(aux[0]));
+            data.set(Calendar.MONTH, Integer.parseInt(aux[1]));
+            data.set(Calendar.YEAR, Integer.parseInt(aux[2]));
+        }
+
+        //Formata comissao
+        comissao.replace("%", ""); 
+        
+        listaImoveis.add(
+                new Imovel(
+                        codigo,
+                        tipo,
+                        descricao,
+                        arquivoFoto,
+                        preco,
+                        Double.parseDouble(comissao),
+                        data,
+                        this.ctrPrincipal.ctrVendedor.getVendedorByCpf(vendedor_cpf)
+                )
+        );
 
         //Grava edição em arquivo
         try {
@@ -55,35 +78,41 @@ public class ControleImovel {//abre classe ControleImovel
 
     //metodo para listar os imóveis
     //recebe o pTipo da ComboBox cbTipo, da classe LimiteImovel.java
-    public ArrayList<String> listarImoveis(String pTipo) {//abre listarImoveis
+    public ArrayList<String> getInfoList(String pTipo) {
         ArrayList<String> lista = new ArrayList<String>();
         String aux;
         //listar todos os tipos de imoveis cadastrados
-        if (pTipo.equals("Todos")) {//abre if 01
-            for (Imovel i : listaImoveis) {//abre for 01
+        if (pTipo.equals("Todos")) {
+            for (Imovel i : listaImoveis) {
                 //verifica se o tipo do imóvel selecionado no LimitiImovel.listarImoveis existe
-                aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo() + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
-                        + i.getNomeVendedor() + "\nPreço: " + i.getPrecoSolicitado() + "\nData de Cadastro: " + i.getData().get(Calendar.DAY_OF_MONTH) + "/"
-                        + i.getData().get(Calendar.MONTH) + "/" + i.getData().get(Calendar.YEAR);
+                aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo()
+                        + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
+                        + i.getVendedor().getNome() + "\nPreço: " + i.getPreco()
+                        + "\nData de Cadastro: " + i.getDataInclusao().get(Calendar.DAY_OF_MONTH)
+                        + "/" + i.getDataInclusao().get(Calendar.MONTH) + "/"
+                        + i.getDataInclusao().get(Calendar.YEAR);
                 lista.add(aux);//adiciona imovel no ArrayList lita
-            }//fecha for 01
-        }//fecha if 01 
+            }
+        }
         else //se não for todos o tipo selecionado
-        {//abre else do if 01
+        {
             //for para percorrer toda a lista de imovel
-            for (Imovel i : listaImoveis) {//abre for 02
+            for (Imovel i : listaImoveis) {
                 //verifica se o tipo do imóvel selecionado no LimitiImovel.listarImoveis existe
-                if (pTipo.equals(i.getTipo())) {//abre if 02
-                    aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo() + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
-                            + i.getNomeVendedor() + "\nPreço: " + i.getPrecoSolicitado() + "\nData de Cadastro: " + i.getData().get(Calendar.DAY_OF_MONTH) + "/"
-                            + i.getData().get(Calendar.MONTH) + "/" + i.getData().get(Calendar.YEAR);
+                if (pTipo.equals(i.getTipo())) {
+                    aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo()
+                            + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
+                            + i.getVendedor().getNome() + "\nPreço: " + i.getPreco()
+                            + "\nData de Cadastro: " + i.getDataInclusao().get(Calendar.DAY_OF_MONTH)
+                            + "/" + i.getDataInclusao().get(Calendar.MONTH) + "/"
+                            + i.getDataInclusao().get(Calendar.YEAR);
                     lista.add(aux);//adiciona imovel no ArrayList lita
-                }//fecha if 02
-            }//fecha for 02
-        }//fecha else do if 01
+                }
+            }
+        }
         return lista;
 
-    }//fecha listarImoveis
+    }
 
     public ArrayList<Imovel> getLista() {
 
@@ -122,7 +151,7 @@ public class ControleImovel {//abre classe ControleImovel
     }
 
     //metodo para serializa os imoveis, para salvar em arquivo
-    private void serializaImovel() throws Exception {//abre serializaImovel
+    private void serializaImovel() throws Exception {
         //Stream de gravação
         FileOutputStream objFileOS = new FileOutputStream("imoveis.dat");
         //Stream de gravação
@@ -133,14 +162,14 @@ public class ControleImovel {//abre classe ControleImovel
         objOS.flush();
         //fecha stream
         objOS.close();
-    }//fecha serializaImovel
+    }
 
     //metodo para desserializar o arquivo de imoveis
-    private void desserializaImovel() throws Exception {//abre desserializaDisciplina
+    private void desserializaImovel() throws Exception {
         //nome do arquivo que será lido
         File objFile = new File("imoveis.dat");
         //se o arquivo existir
-        if (objFile.exists()) {//abre if 01
+        if (objFile.exists()) {
             //objeto de stream de bytes
             FileInputStream objFileIS = new FileInputStream("imoveis.dat");
             //objeto de stream de bytes
@@ -149,8 +178,8 @@ public class ControleImovel {//abre classe ControleImovel
             listaImoveis = (ArrayList<Imovel>) objIS.readObject();
             //fecha stream
             objIS.close();
-        }//fecha if 01
+        }
 
-    }//fecha desserializaDisciplina
+    }
 
-}//fecha classe ControleImovel
+}

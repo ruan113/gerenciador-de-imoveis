@@ -1,25 +1,16 @@
-//BRUNO GUILHERME LUNARDI - 2016003830
-//IAN MARCEL TOBAR - 2016001693 
-//RUAN MICHEL ADABO - 2016015278 
 package controle;
 
+import Model.Corretor;
+import Model.Venda;
+import Model.Imovel;
 import java.io.File;
-
 import java.io.FileInputStream;
-
 import java.io.FileOutputStream;
-
 import java.io.ObjectInputStream;
-
 import java.io.ObjectOutputStream;
-
 import java.util.*;
-
 import javax.swing.JOptionPane;
-
 import limite.*;
-
-import modelo.*;
 
 public class ControleVenda {
 
@@ -66,7 +57,7 @@ public class ControleVenda {
     }    
 
      */
-    public void cadastraVenda(String nomeComprador, Calendar dataVenda, Corretor corretorResponsavel, double valorNegociado, Imovel objImovel) throws Exception {//abre cadastraVenda
+    public void cadastraVenda(String nomeComprador, Calendar dataVenda, Corretor corretorResponsavel, double valorNegociado, Imovel objImovel) throws Exception {
 
         //adiciona no ArrayList
         listaVendasRealizadas.add(new Venda(nomeComprador, dataVenda, corretorResponsavel, valorNegociado, objImovel));
@@ -74,16 +65,16 @@ public class ControleVenda {
         //grava em arquivo
         this.serializaImovel();
 
-    }//fecha cadastraVenda
+    }
 
     //metodo para listar os imóveis
     //recebe o pTipo da ComboBox cbTipo, da classe LimiteImovel.java
-    public ArrayList<String> listarVendas() {//abre listarImoveis
+    public ArrayList<String> listarVendas() {
         ArrayList<String> lista = new ArrayList<String>();
         String aux;
 
         //listar todos os tipos de imoveis cadastrados
-        for (Venda ven : listaVendasRealizadas) {//abre for 01
+        for (Venda ven : listaVendasRealizadas) {
             //verifica se o tipo do imÃ³vel selecionado no LimitiImovel.listarImoveis existe
             Calendar data = ven.getDataVenda();
 
@@ -97,11 +88,11 @@ public class ControleVenda {
                     + "\nDescricao: " + ven.getObjImovel().getDescricao();
             lista.add(aux);//adiciona imovel no ArrayList lita
 
-        }//fecha for 01
+        }
 
         return lista;
 
-    }//fecha listarImoveis
+    }
 
     //GETTERS E SETTERS
     public ArrayList<Venda> getListaVendas() {
@@ -115,7 +106,7 @@ public class ControleVenda {
     }
 
     //metodo para serializa as vendas, para salvar em arquivo
-    private void serializaImovel() throws Exception {//abre serializaImovel
+    private void serializaImovel() throws Exception {
 
         //Stream de gravação
         FileOutputStream objFileOS = new FileOutputStream("vendas.dat");
@@ -132,16 +123,15 @@ public class ControleVenda {
         //fecha stream
         objOS.close();
 
-    }//fecha serializaImovel    
+    }  
 
-    private void desserializaVenda() throws Exception {//abre desserializaDisciplina
+    private void desserializaVenda() throws Exception {
 
         //nome do arquivo que será lido
         File objFile = new File("vendas.dat");
 
         //se o arquivo existir
-        if (objFile.exists()) {//abre if 01
-
+        if (objFile.exists()) {
             //objeto de stream de bytes
             FileInputStream objFileIS = new FileInputStream("vendas.dat");
 
@@ -154,9 +144,9 @@ public class ControleVenda {
             //fecha stream
             objIS.close();
 
-        }//fecha if 01
+        }
 
-    }//fecha desserializaDisciplina    
+    }    
 
     //metodo para desserializar as vendas armazenadas em arquivos
 }
