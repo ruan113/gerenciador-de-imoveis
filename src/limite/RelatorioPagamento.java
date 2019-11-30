@@ -9,10 +9,10 @@ import controle.ControlePrincipal;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import modelo.Corretor;
-import modelo.CorretorComissionado;
-import modelo.CorretorContratado;
-import modelo.Venda;
+import Model.Corretor;
+import Model.CorretorComissionado;
+import Model.CorretorContratado;
+import Model.Venda;
 
 /**
  *
@@ -33,9 +33,9 @@ public class RelatorioPagamento extends javax.swing.JFrame {
 
         //pega a lista de corretores contratados, que está no ControleCorretor
         //adiciona os corretores no cbSelecionaCorretor (comboBox)
-        for (Corretor cor : ctrPrincipal.ctrCorretor.getListaCorretor()) {//abre for 01
+        for (Corretor cor : ctrPrincipal.ctrCorretor.getListaCorretor()) {
             cbSelecionaCorretor.addItem(cor.getaNome());//adiciona item no comboBox
-        }//fecha for 01
+        }
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setVisible(true);
@@ -187,25 +187,25 @@ public class RelatorioPagamento extends javax.swing.JFrame {
         String tipo = "";
 
         //verifica se o campo ano e mês estão em branco
-        if (tfAnoPesquisa.getText().equals("") || tfMesPesquisa.getText().equals("")) {//abre if 01
+        if (tfAnoPesquisa.getText().equals("") || tfMesPesquisa.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Mês e ano obrigatórios!!!");
-        }//fecha if 01
-        else {//abre else do if 02
+        }
+        else {
 
             int pMes = Integer.parseInt(tfMesPesquisa.getText());
             int pAno = Integer.parseInt(tfAnoPesquisa.getText());
 
             //for para percorrer o ArrayList de vendas
-            for (Venda v : ctrPrincipal.ctrVenda.getListaVendas()) {//abre for 01
+            for (Venda v : ctrPrincipal.ctrVenda.getListaVendas()) {
                 //se o mês digitado existir no ArrayList de vendas
                 if ((v.getDataVenda().get(Calendar.MONTH) == pMes)
                         && (v.getDataVenda().get(Calendar.YEAR) == pAno)
-                        && (v.getCorretorResponsavel().getaNome().equals(String.valueOf(cbSelecionaCorretor.getSelectedItem())))) {//abre if 02
+                        && (v.getCorretorResponsavel().getaNome().equals(String.valueOf(cbSelecionaCorretor.getSelectedItem())))) {
                     //se o corretor for comissionado
-                    if (v.getCorretorResponsavel() instanceof CorretorComissionado) {//abre if 03
+                    if (v.getCorretorResponsavel() instanceof CorretorComissionado) {
                         vendas += v.getValorNegociado();
                         tipo = "comissionado";
-                    }//fecha if 03
+                    }
                     else {
                         CorretorContratado auxContratado = (CorretorContratado) v.getCorretorResponsavel();
                         vendas += v.getValorNegociado();
@@ -213,21 +213,21 @@ public class RelatorioPagamento extends javax.swing.JFrame {
                         salario = auxContratado.getaSalarioFixo();
                     }
 
-                }//fecha if 02
+                }
 
-            }//fecha for 01
+            }
 
-        }//fecha else do if 02
+        }
 
         //calcula valor pago para o corretor
-        if (tipo.equals("comissionado")) {//abre if 04
+        if (tipo.equals("comissionado")) {
             vendas = vendas * 0.03;
             output += "Valor a ser pago para o corretor comissionado: ";
             output += String.valueOf(vendas) + "\n";
             output += "Período: \n" + "Mês: " + tfMesPesquisa.getText() + "\nAno: " + tfAnoPesquisa.getText();
 
-        }//fecha if 04
-        else if (tipo.equals("")) {//abre if 05
+        }
+        else if (tipo.equals("")) {
             //se não tiver a venda do nome selecionado no comboBox
             //pega somente o salario, se for contratado            
             //traz os outros campos zerados
@@ -260,7 +260,7 @@ public class RelatorioPagamento extends javax.swing.JFrame {
 
             }
 
-        }//fecha if 05
+        }
         else {
             comissao = vendas * 0.01;
             valorPagar = comissao + salario;

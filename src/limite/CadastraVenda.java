@@ -5,10 +5,11 @@
  */
 package limite;
 
+import Model.Corretor;
+import Model.Imovel;
 import controle.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import modelo.*;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -62,13 +63,13 @@ public class CadastraVenda extends javax.swing.JFrame {
         //Array para pegar os tipos de imóveis já cadastrados
         ArrayList<String> auxString = new ArrayList<String>();
         //inicializa ComboBox
-        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {//abre for 01   
+        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {  
             //se não existir no Array auxiliar o tipo cadastrado
-            if (!auxString.contains(imv.getTipo())) {//abre if 01
+            if (!auxString.contains(imv.getTipo())) {
                 auxString.add(imv.getTipo());//adiciona o tipo no Array auxiliar
                 cbTipoVender.addItem(imv.getTipo());//adiciona item no comboBox
-            }//fecha if 01
-        }//fecha for 01
+            }
+        }
 
         //zera combobox
         cbImovelDisponivel.removeAllItems();
@@ -78,7 +79,7 @@ public class CadastraVenda extends javax.swing.JFrame {
 
         //for para pegar os codigos de imoveis disponiveis para venda
         //onde não pegará os repetidos, graças ao if
-        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {//abre for 01        
+        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {      
             if (String.valueOf(cbTipoVender.getSelectedItem()).equals(imv.getTipo())) {
                 auxImovel.add(imv);//adiciona imovel no Array auxiliar
                 cbImovelDisponivel.addItem(imv.getCodigo());
@@ -89,7 +90,7 @@ public class CadastraVenda extends javax.swing.JFrame {
                 indexRemove = ctrVenda.ctrPrincipal.ctrImovel.getLista().indexOf(imv);
                 System.out.println("Index remover: " + indexRemove);
             }
-        }//fecha for 01
+        }
 
 //        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setVisible(true);
@@ -354,7 +355,7 @@ public class CadastraVenda extends javax.swing.JFrame {
                 System.out.println("No clicar do botao Index remover: " + indexRemove);
                 ctrVenda.ctrPrincipal.ctrImovel.removeLista(indexRemove);
                 JOptionPane.showMessageDialog(null, "Venda efetuada com sucesso!!!");
-                //fecha esta janela
+                
                 this.dispose();
                 //chama este formulario novamente
                 ctrVenda.mostraFormulario();
@@ -381,24 +382,24 @@ public class CadastraVenda extends javax.swing.JFrame {
         //zera comboBox
         cbImovelDisponivel.removeAllItems();
         //for para pegar os codigos de imoveis disponiveis para venda
-        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {//abre for 01
+        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {
             //verifica se o item selecionado no combobox cbTipoVender é igual o tipo contido no vetor
             //se for igual, adiciona os códigos do tipo selecionado no combobox
-            if (String.valueOf(cbTipoVender.getSelectedItem()).equals(imv.getTipo())) {//abre if 01
+            if (String.valueOf(cbTipoVender.getSelectedItem()).equals(imv.getTipo())) {
                 //adiciona o códgio no combobox
                 cbImovelDisponivel.addItem(imv.getCodigo());
-            }//fecha if 01
+            }
 
-        }//fecha for 01          
+        }        
 
     }//GEN-LAST:event_cbTipoVenderActionPerformed
 
     private void cbImovelDisponivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbImovelDisponivelActionPerformed
 
         //for para pegar o valor real do item selecionado
-        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {//abre for 01
+        for (Imovel imv : ctrVenda.ctrPrincipal.ctrImovel.getLista()) {
             //verifica se o codigo da lista de imoveis é igual o codigo selecionado no combobox cbImovelDisponivel
-            if (String.valueOf(imv.getCodigo()).equals(String.valueOf(cbImovelDisponivel.getSelectedItem()))) {//abre if 01
+            if (String.valueOf(imv.getCodigo()).equals(String.valueOf(cbImovelDisponivel.getSelectedItem()))) {
                 //seta o JTextField tfValorReal com o valor do imovel
                 tfValorReal.setText(String.valueOf(imv.getPrecoSolicitado()));
                 //pega o imovel selecionado e passa para a variavel objImovel
@@ -407,8 +408,8 @@ public class CadastraVenda extends javax.swing.JFrame {
                 //pega o index do imovel selecionado
                 indexRemove = ctrVenda.ctrPrincipal.ctrImovel.getLista().indexOf(imv);
                 System.out.println("Index remover: " + indexRemove);
-            }//fecha if 01
-        }//fecha for 01
+            }
+        }
 
     }//GEN-LAST:event_cbImovelDisponivelActionPerformed
 

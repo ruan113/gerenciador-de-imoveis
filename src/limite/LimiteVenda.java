@@ -23,14 +23,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
-import modelo.Imovel;
-import modelo.Venda;
+import Model.Imovel;
+import Model.Venda;
 
 /**
  *
  * @author Ruan
  */
-public class LimiteVenda {//abre classe LimiteVenda
+public class LimiteVenda {
     //controlador
 
     ControleVenda ctrVenda;
@@ -38,13 +38,13 @@ public class LimiteVenda {//abre classe LimiteVenda
     int index = 0;
 
     //Construtor
-    public LimiteVenda(ControleVenda ctrVenda) {//abre constutor 01
+    public LimiteVenda(ControleVenda ctrVenda) {
         //controle
         this.ctrVenda = ctrVenda;
-    }//fecha construtor 01
+    }
 
     //metodo para listar vendas
-    public void listaVendas() {//abre listaVendas
+    public void listaVendas() {
         //janela
         JFrame frConsultar = new JFrame();
 
@@ -124,6 +124,6 @@ public class LimiteVenda {//abre classe LimiteVenda
         frConsultar.setSize(900, 600);
         frConsultar.setVisible(true);
 
-    }//fecha listaVendas
+    }
 
-}//fecha classe LimiteVenda
+}

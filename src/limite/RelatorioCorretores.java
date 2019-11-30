@@ -7,10 +7,10 @@ import controle.ControlePrincipal;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import modelo.Corretor;
-import modelo.CorretorComissionado;
-import modelo.CorretorContratado;
-import modelo.Venda;
+import Model.Corretor;
+import Model.CorretorComissionado;
+import Model.CorretorContratado;
+import Model.Venda;
 
 public class RelatorioCorretores extends javax.swing.JFrame {
 
@@ -166,10 +166,10 @@ public class RelatorioCorretores extends javax.swing.JFrame {
         String output = "";
         String nomeCorretorMes = "";
         //verifica se foi digitado ano e mês
-        if (tfAnoPesquisa.equals("") || tfMesPesquisa.equals("")) {//abre if 01
+        if (tfAnoPesquisa.equals("") || tfMesPesquisa.equals("")) {
             JOptionPane.showMessageDialog(null, "Ano e Mês são obrigatórios!!!");
-        }//fecha if 01
-        else {//abre else do if 01
+        }
+        else {
             //pega mes e ano digitado
             int pMes = Integer.parseInt(tfMesPesquisa.getText());
             int pAno = Integer.parseInt(tfAnoPesquisa.getText());
@@ -180,7 +180,7 @@ public class RelatorioCorretores extends javax.swing.JFrame {
             
             //for para percorrer a lista de corretores
             //pega todos os corretores cadastrados no sistema
-            for (Corretor c : ctrPrincipal.ctrCorretor.getListaCorretor()) {//abre for 01
+            for (Corretor c : ctrPrincipal.ctrCorretor.getListaCorretor()) {
                 //inicializa vendas
                 vendas = 0.0;//pega o valor total da venda de cada corretor
 
@@ -188,16 +188,16 @@ public class RelatorioCorretores extends javax.swing.JFrame {
 
                 //for para percorrer a lista de vendas
                 //atraves do nome do corretor da variavel c acha as vendas
-                for (Venda v : ctrPrincipal.ctrVenda.getListaVendas()) {//abre for 02
+                for (Venda v : ctrPrincipal.ctrVenda.getListaVendas()) {
                     //if para pegar as vendas da data digitada
                     if ((v.getDataVenda().get(Calendar.MONTH) == pMes)
                             && (v.getDataVenda().get(Calendar.YEAR) == pAno)
-                            && (v.getCorretorResponsavel().getaNome().equals(c.getaNome()))) {//abre if 02     
+                            && (v.getCorretorResponsavel().getaNome().equals(c.getaNome()))) {
 
                             vendas = vendas + v.getValorNegociado();
 
-                    }//fecha if 02
-                }//fecha for 02
+                    }
+                }
 
                 output += "Faturamento: " + vendas + "\n";
                 
@@ -208,10 +208,10 @@ public class RelatorioCorretores extends javax.swing.JFrame {
                 }
 
                 //verifica o tipo de corretor
-                if (c instanceof CorretorComissionado) {//abre if 
+                if (c instanceof CorretorComissionado) {
                     vendas = vendas * 0.03;
                     output += "Valor pago ao Corretor Comissionado: " + String.valueOf(vendas) + "\n";
-                }//fecha if
+                }
                 else {
                     //variavel auxiliar para pegar o salario do corretor contratado
                     CorretorContratado auxContratado = (CorretorContratado)c;//converte para contratado
@@ -222,9 +222,9 @@ public class RelatorioCorretores extends javax.swing.JFrame {
 
                 output += "\n-----------------------------------------------------------------------\n";
                 
-            }//fecha for 01
+            }
 
-        }//fecha else do if 01
+        }
         lbResultNomeCorretorMes.setText(nomeCorretorMes);
         taResultadoPesquisa.setEditable(false);
         taResultadoPesquisa.setText(output);

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import modelo.CorretorComissionado;
-import modelo.CorretorContratado;
-import modelo.Imovel;
-import modelo.Venda;
+import Model.CorretorComissionado;
+import Model.CorretorContratado;
+import Model.Imovel;
+import Model.Venda;
 
 /**
  *

@@ -13,10 +13,10 @@ import java.util.Calendar;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import modelo.Corretor;
-import modelo.CorretorComissionado;
-import modelo.CorretorContratado;
-import modelo.Venda;
+import Model.Corretor;
+import Model.CorretorComissionado;
+import Model.CorretorContratado;
+import Model.Venda;
 
 /**
  *
