@@ -1,9 +1,8 @@
-//BRUNO GUILHERME LUNARDI - 2016003830
-//IAN MARCEL TOBAR - 2016001693 
-//RUAN MICHEL ADABO - 2016015278 
 package limite;
 
+import Model.*;
 import controle.*;
+import limite.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -23,42 +22,28 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
-import Model.Imovel;
-import Model.Venda;
 
-/**
- *
- * @author Ruan
- */
 public class LimiteVenda {
     //controlador
-
     ControleVenda ctrVenda;
-
     int index = 0;
-
     //Construtor
     public LimiteVenda(ControleVenda ctrVenda) {
         //controle
         this.ctrVenda = ctrVenda;
     }
-
     //metodo para listar vendas
     public void listaVendas() {
         //janela
         JFrame frConsultar = new JFrame();
-
         JPanel pMain = new JPanel();//Painel principal
         JPanel pLabel = new JPanel();//Painel para Armazenar o label inicial
         JPanel pButtons = new JPanel();//Painel pra guardar os botões
-
         //pMain especificações
         pMain.setLayout(null);
-
         //pLabel especificações
         pLabel.setLayout(new BorderLayout());
         pLabel.add(new JLabel("LISTA DE VENDAS"), BorderLayout.CENTER);
-
         //pButtons especificações
         pButtons.setLayout(new GridLayout(1, 4, 5, 0));
         //Adição dos botões
@@ -86,7 +71,6 @@ public class LimiteVenda {
         pLista.add(pLabel);
         //adiciona painel pButtons no painel pLista
         pLista.add(pButtons);
-
         int i = 1;//indicar o numero da venda
         int y = 110;
         if (lista.size() != 0) {
@@ -110,10 +94,8 @@ public class LimiteVenda {
                 i++;//incrementa i, número da venda
             }
         }
-
         pLabel.setBounds(0, 0, 500, 50);
         pButtons.setBounds(0, 50, 500, 50);
-
         JScrollPane scroll = new JScrollPane(pLista, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         frConsultar.setPreferredSize(new Dimension(550, 600));
@@ -123,7 +105,5 @@ public class LimiteVenda {
         frConsultar.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frConsultar.setSize(900, 600);
         frConsultar.setVisible(true);
-
     }
-
 }

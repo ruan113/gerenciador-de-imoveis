@@ -1,6 +1,8 @@
 package controle;
 
-import Model.Vendedor;
+import Model.*;
+import controle.*;
+import limite.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,17 +10,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 import javax.swing.JOptionPane;
-import limite.LimiteVendedor;
 
 public class ControleVendedor {
 
     public ControlePrincipal ctrPrincipal;
-
     public LimiteVendedor lmtVendedor;
     private ArrayList<Vendedor> listaVendedores = new ArrayList<Vendedor>();
 
     public ControleVendedor(ControlePrincipal ctrPrincipal) {
-
         this.ctrPrincipal = ctrPrincipal;
         this.lmtVendedor = new LimiteVendedor(this);
         try {
@@ -26,12 +25,10 @@ public class ControleVendedor {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao abrir arquivo", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     public void cadastrarVendedor(Vendedor novoVendedor) {
         this.listaVendedores.add(novoVendedor);
-
         //Grava edição em arquivo
         try {
             this.serializaVendedor();
@@ -43,6 +40,23 @@ public class ControleVendedor {
 
     public ArrayList<Vendedor> getListAll() {
         return this.listaVendedores;
+    }
+
+    public ArrayList<String> getInfoList() {
+        ArrayList<String> lista = new ArrayList<String>();
+        String aux;
+        //listar todos os tipos de imoveis cadastrados
+        for (Vendedor v : this.listaVendedores) {
+            //verifica se o tipo do imóvel selecionado no LimitiImovel.listarImoveis existe
+            aux = "Nome: " + v.getNome()+ "\nCpf: " + v.getCpf()
+                    + "\nE-mail: " + v.getEmail()+ "\nFone: "
+                    + v.getFone() + "\nContato Preferêncial: " 
+                    + v.getContatoPref();
+                   
+            lista.add(aux);//adiciona vendedor no ArrayList lita
+        }
+
+        return lista;
     }
 
     public Vendedor getVendedorByCpf(String cpf) {
@@ -61,6 +75,29 @@ public class ControleVendedor {
             }
         }
         return null;
+    }
+
+    public void editaLista(int index, Vendedor v) {
+        listaVendedores.remove(index);
+        listaVendedores.add(index, v);
+        //Grava edição em arquivo
+        try {
+            this.serializaVendedor();
+            JOptionPane.showMessageDialog(null, "Imóvel editado com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void removeLista(int index) {
+        listaVendedores.remove(index);
+        //Grava edição em arquivo
+        try {
+            this.serializaVendedor();
+            JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     //metodo para serializa os imoveis, para salvar em arquivo
@@ -92,6 +129,5 @@ public class ControleVendedor {
             //fecha stream
             objIS.close();
         }
-
     }
 }
