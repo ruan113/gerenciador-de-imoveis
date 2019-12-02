@@ -33,7 +33,6 @@ public class Comprador extends Pessoa {
             if (listaTipoImovelCompra.get(i).equalsIgnoreCase(tipoImovel)) {
                 listaTipoImovelCompra.remove(i);
                 return true;
-
             }
         }
         return false;

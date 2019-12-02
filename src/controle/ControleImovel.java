@@ -36,7 +36,7 @@ public class ControleImovel {
             String[] aux = dataInclusao.split("/"); //separa a string em partes
             //para coloca-las na posicao ideal
             data.set(Calendar.DAY_OF_MONTH, Integer.parseInt(aux[0]));
-            data.set(Calendar.MONTH, Integer.parseInt(aux[1]));
+            data.set(Calendar.MONTH, Integer.parseInt(aux[1]) - 1);
             data.set(Calendar.YEAR, Integer.parseInt(aux[2]));
         }
         //Formata comissao
@@ -126,6 +126,77 @@ public class ControleImovel {
         }
     }
 
+    public int getMaiorAno() {
+        int maior = 0;
+
+        //Caso estaja vazia a lista, retorna ano atual
+        if (this.listaImoveis.size() == 0) {
+            return Calendar.getInstance().get(Calendar.YEAR);
+        }
+
+        for (Imovel i : this.listaImoveis) {
+            if (i.getDataInclusao().get(Calendar.YEAR) > maior) {
+                maior = i.getDataInclusao().get(Calendar.YEAR);
+            }
+        }
+
+        return maior;
+    }
+
+    public int getMenorAno() {
+        int menor = 9999;
+
+        //Caso estaja vazia a lista, retorna ano atual
+        if (this.listaImoveis.size() == 0) {
+            return Calendar.getInstance().get(Calendar.YEAR);
+        }
+
+        for (Imovel i : this.listaImoveis) {
+            if (i.getDataInclusao().get(Calendar.YEAR) < menor) {
+                menor = i.getDataInclusao().get(Calendar.YEAR);
+            }
+        }
+
+        return menor;
+    }
+
+    public Imovel getByCodigo(int codigo) {
+        for (Imovel i : this.listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Imovel> getByTipo(String tipo) {
+        ArrayList<Imovel> imoveis = new ArrayList<Imovel>();
+        
+        for (Imovel i : this.listaImoveis) {
+            if (i.getTipo().equals(tipo)) {
+                imoveis.add(i);
+            }
+        }
+        
+        return imoveis;
+    }
+
+    public void addVisita(int codigo, Visita visita){
+        for(Imovel i : listaImoveis){
+            if(i.getCodigo() == codigo){
+                i.agendaVisita(visita);
+            }
+        }
+    }
+    
+    public void cancelarVisita(int codigo, Visita visita){
+        for(Imovel i : listaImoveis){
+            if(i.getCodigo() == codigo){
+                i.cancelaVisita(visita);
+            }
+        }
+    }
+    
     //metodo para serializa os imoveis, para salvar em arquivo
     private void serializaImovel() throws Exception {
         //Stream de gravação

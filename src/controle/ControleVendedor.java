@@ -47,7 +47,7 @@ public class ControleVendedor {
         String aux;
         //listar todos os tipos de imoveis cadastrados
         for (Vendedor v : this.listaVendedores) {
-            //verifica se o tipo do imóvel selecionado no LimitiImovel.listarImoveis existe
+            //verifica se o tipo do imóvel selecionado no LimitiVendedor.listarImoveis existe
             aux = "Nome: " + v.getNome()+ "\nCpf: " + v.getCpf()
                     + "\nE-mail: " + v.getEmail()+ "\nFone: "
                     + v.getFone() + "\nContato Preferêncial: " 
@@ -83,7 +83,7 @@ public class ControleVendedor {
         //Grava edição em arquivo
         try {
             this.serializaVendedor();
-            JOptionPane.showMessageDialog(null, "Imóvel editado com sucesso!!!");
+            JOptionPane.showMessageDialog(null, "Vendedor editado com sucesso!!!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
         }
@@ -94,7 +94,7 @@ public class ControleVendedor {
         //Grava edição em arquivo
         try {
             this.serializaVendedor();
-            JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso!!!");
+            JOptionPane.showMessageDialog(null, "Vendedor removido com sucesso!!!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
         }
