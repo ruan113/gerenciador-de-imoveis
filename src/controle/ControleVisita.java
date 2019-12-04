@@ -25,11 +25,6 @@ public class ControleVisita {
         this.ctrPrincipal = ctrPrincipal;
         //limite
         lmtVisita = new LimiteVisita(this);
-        try {
-            this.desserializaVisita();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao abrir arquivo", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public Visita cadastraVisita(String dataString, String compradorNome,
@@ -43,37 +38,13 @@ public class ControleVisita {
             data.set(Calendar.MONTH, Integer.parseInt(aux[1]) - 1);
             data.set(Calendar.YEAR, Integer.parseInt(aux[2]));
         }
-        
-        Visita novaVisita = new Visita(
+
+        return new Visita(
                 data,
                 ctrPrincipal.ctrComprador.getCompradorByNome(compradorNome),
                 ctrPrincipal.ctrCorretor.getCorretorByNome(corretorNome));
-        
-        //adiciona no ArrayList
-        listaVisitas.add(novaVisita);
-        //grava em arquivo
-        try {
-            this.serializaVisita();
-            JOptionPane.showMessageDialog(null, "Corretor cadastrado com sucesso!!!");
-            return novaVisita;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
     }
 
-     public void removeFromLista(int index) {
-        listaVisitas.remove(index);
-        //Grava edição em arquivo
-        try {
-            this.serializaVisita();
-            JOptionPane.showMessageDialog(null, " removido com sucesso!!!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    
     //metodo para listar os imóveis
     //recebe o pTipo da ComboBox cbTipo, da classe LimiteVisita.java
     public ArrayList<String> getInfoList(String estado) {
@@ -109,56 +80,4 @@ public class ControleVisita {
         }
         return lista;
     }
-
-    public void editaVisita(int index, Visita v) {
-        listaVisitas.remove(index);
-        listaVisitas.add(index, v);
-        //Grava edição em arquivo
-        try {
-            this.serializaVisita();
-            JOptionPane.showMessageDialog(null, "Imóvel editado com sucesso!!!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    //GETTERS E SETTERS
-    public ArrayList<Visita> getListaVisitas() {
-        return listaVisitas;
-    }
-    
-    public void setListaVisitas(ArrayList<Visita> listaVisitas) {
-        this.listaVisitas = listaVisitas;
-    }
-
-    //metodo para serializa as vendas, para salvar em arquivo
-    private void serializaVisita() throws Exception {
-        //Stream de gravação
-        FileOutputStream objFileOS = new FileOutputStream("visitas.dat");
-        //Stream de gravação
-        ObjectOutputStream objOS = new ObjectOutputStream(objFileOS);
-        //grava o Array no arquivo
-        objOS.writeObject(listaVisitas);
-        //limpa objOS
-        objOS.flush();
-        //fecha stream
-        objOS.close();
-    }
-
-    private void desserializaVisita() throws Exception {
-        //nome do arquivo que será lido
-        File objFile = new File("visitas.dat");
-        //se o arquivo existir
-        if (objFile.exists()) {
-            //objeto de stream de bytes
-            FileInputStream objFileIS = new FileInputStream("visitas.dat");
-            //objeto de stream de bytes
-            ObjectInputStream objIS = new ObjectInputStream(objFileIS);
-            //converte o objeto lido do arquivo para o tipo ArrayList e atribui ao Array listaCorretor
-            listaVisitas = (ArrayList<Visita>) objIS.readObject();
-            //fecha stream
-            objIS.close();
-        }
-    }
-    //metodo para desserializar as vendas armazenadas em arquivos
 }

@@ -79,7 +79,7 @@ public class LimiteComprador extends JFrame implements ActionListener {
                                 tfContatoPref.getText()
                         );
                     } catch (Exception err) {
-                        JOptionPane.showMessageDialog(null, 
+                        JOptionPane.showMessageDialog(null,
                                 "Erro ao cadastrar comprador!",
                                 "Error!", JOptionPane.ERROR_MESSAGE);
                     }
@@ -160,15 +160,28 @@ public class LimiteComprador extends JFrame implements ActionListener {
         bCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frConsultar.dispose();
-                cadastraComprador();
+                if (index != -1) {
+                    frConsultar.dispose();
+                    cadastraComprador();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Selecione pelomenos um item na lista!",
+                            "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
         });
         bEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frConsultar.dispose();
-                editaComprador(index);
+                if (index != -1) {
+                    frConsultar.dispose();
+                    editaComprador(index);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Selecione pelomenos um item na lista!",
+                            "Error!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         bExcluir.addActionListener(new ActionListener() {
@@ -178,9 +191,9 @@ public class LimiteComprador extends JFrame implements ActionListener {
                 try {
                     ctrComprador.excluiComprador(index);
                 } catch (Exception err) {
-                    JOptionPane.showMessageDialog(null, 
-                                err,
-                                "Error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            err,
+                            "Error!", JOptionPane.ERROR_MESSAGE);
                 }
                 listaCompradores();
             }

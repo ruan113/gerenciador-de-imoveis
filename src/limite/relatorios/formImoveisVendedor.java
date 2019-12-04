@@ -5,17 +5,55 @@
  */
 package limite.relatorios;
 
+import Model.Imovel;
+import controle.ControlePrincipal;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 /**
  *
  * @author hyper
  */
 public class formImoveisVendedor extends javax.swing.JPanel {
 
+    ControlePrincipal ctrPrincipal;
+
     /**
      * Creates new form formImoveisVendedor
      */
-    public formImoveisVendedor() {
+    public formImoveisVendedor(ControlePrincipal ctrPrincipal) {
+        this.ctrPrincipal = ctrPrincipal;
         initComponents();
+    }
+
+    private void searchForCpf() {
+        ArrayList<String> resultado = new ArrayList<String>();
+
+        for (Imovel v : ctrPrincipal.ctrImovel.getLista()) {
+            if (v.getVendedor().getCpf().equals(tfCpf.getText())) {
+                String aux = "Código: " + v.getCodigo()
+                        + "\nTipo: " + v.getTipo()
+                        + "\nEstado: " + v.getEstado()
+                        + "\nPreco: " + v.getPreco()
+                        + "\nComissao: " + v.getComissao()
+                        + "\nData: " + v.getDataInclusao().get(Calendar.DAY_OF_MONTH)
+                        + "/" + (v.getDataInclusao().get(Calendar.MONTH) + 1) + "/"
+                        + v.getDataInclusao().get(Calendar.YEAR) + "\n\n";
+                resultado.add(aux);
+            }
+        }
+
+        if (resultado.size() == 0) {
+            resultado.add("Não há imóveis cadastrados  vendedor");
+            return;
+        }
+        
+        String resposta = "";
+        for(String s : resultado){
+            resposta += s;
+        }
+        
+        taResultado.setText(resposta);
     }
 
     /**
@@ -28,28 +66,29 @@ public class formImoveisVendedor extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
+        taResultado = new javax.swing.JTextArea();
+        btSearch = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tfCpf = new javax.swing.JTextField();
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        taResultado.setColumns(20);
+        taResultado.setRows(5);
+        jScrollPane2.setViewportView(taResultado);
 
-        jButton2.setText("Procurar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btSearch.setText("Procurar");
+        btSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btSearchActionPerformed(evt);
             }
         });
 
         jLabel7.setText("Informe o CPF do vendedor desejado:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        tfCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCpfActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,40 +105,41 @@ public class formImoveisVendedor extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1))
+                            .addComponent(tfCpf))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchActionPerformed
+        searchForCpf();
+    }//GEN-LAST:event_btSearchActionPerformed
+
+    private void tfCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_tfCpfActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btSearch;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea taResultado;
+    private javax.swing.JTextField tfCpf;
     // End of variables declaration//GEN-END:variables
 }

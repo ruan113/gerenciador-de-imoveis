@@ -238,6 +238,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Fazer Proposta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPropostaActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

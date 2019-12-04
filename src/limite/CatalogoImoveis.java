@@ -17,17 +17,20 @@ public class CatalogoImoveis extends javax.swing.JFrame {
 
     public CatalogoImoveis(ControlePrincipal ctrPrincipal) {
         this.ctrPrincipal = ctrPrincipal;
+        initComponents();
     }
 
     public void showCatalogo() {
-        initComponents();
-
         cbTipo.removeAllItems();
         cbTipo.addItem(Util.LOTE);
         cbTipo.addItem(Util.CASA);
         cbTipo.addItem(Util.APTO);
         cbTipo.addItem(Util.SALA);
         cbTipo.addItem(Util.RURAL);
+
+        listaImoveis.clearSelection();
+        btAgenda.setEnabled(false);
+        btProposta.setEnabled(false);
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -37,19 +40,6 @@ public class CatalogoImoveis extends javax.swing.JFrame {
         this.infoImovel.setText("Codigo: " + imovel.getCodigo()
                 + "\nPreço: " + imovel.getPreco()
                 + "\nDescrição: " + imovel.getDescricao());
-
-        btAgenda.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ctrPrincipal.ctrVisita.lmtVisita.cadastraVisita(imovel.getCodigo());
-            }
-        });
-        btProposta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ctrPrincipal.ctrVisita.lmtVisita.cadastraVisita(imovel.getCodigo());
-            }
-        });
     }
 
     /**
@@ -127,6 +117,11 @@ public class CatalogoImoveis extends javax.swing.JFrame {
         });
 
         btProposta.setText("Fazer Proposta");
+        btProposta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPropostaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,11 +211,20 @@ public class CatalogoImoveis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAgendaActionPerformed
-        // TODO add your handling code here:
+        if (listaImoveis.getSelectedIndex() == -1) {
+            return;
+        }
+        this.ctrPrincipal.ctrVisita.lmtVisita.cadastraVisita(
+                Integer.parseInt(
+                        listaImoveis.getSelectedValue()
+                )
+        );
     }//GEN-LAST:event_btAgendaActionPerformed
 
     private void cbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoActionPerformed
-        System.out.println("Here we go again");
+        this.listaImoveis.clearSelection();
+        this.infoImovel.setText("");
+
         this.imoveis = this.ctrPrincipal.ctrImovel.getByTipo(
                 (String) cbTipo.getSelectedItem());
         DefaultListModel lista = new DefaultListModel();
@@ -228,7 +232,9 @@ public class CatalogoImoveis extends javax.swing.JFrame {
         this.listaImoveis.removeAll();
 
         for (Imovel i : this.imoveis) {
-            lista.addElement(String.valueOf(i.getCodigo()));
+            if (i.getEstado().equals(Util.ATIVO)) {
+                lista.addElement(String.valueOf(i.getCodigo()));
+            }
         }
 
         this.listaImoveis.setModel(lista);
@@ -236,11 +242,30 @@ public class CatalogoImoveis extends javax.swing.JFrame {
 
     private void listaImoveisValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaImoveisValueChanged
         if (listaImoveis.getSelectedIndex() > -1) {
+            btAgenda.setEnabled(true);
+            btProposta.setEnabled(true);
             atualizaExibidor(this.ctrPrincipal.ctrImovel.getByCodigo(
                     Integer.parseInt(listaImoveis.getSelectedValue())
             ));
+        }else{
+            btAgenda.setEnabled(false);
+            btProposta.setEnabled(false);
         }
     }//GEN-LAST:event_listaImoveisValueChanged
+
+    private void btPropostaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPropostaActionPerformed
+        if (listaImoveis.getSelectedIndex() == -1) {
+            return;
+        }
+
+        System.out.println(listaImoveis.getSelectedIndex());
+
+        this.ctrPrincipal.ctrProposta.lmtProposta.cadastraProposta(
+                Integer.parseInt(
+                        listaImoveis.getSelectedValue()
+                )
+        );
+    }//GEN-LAST:event_btPropostaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAgenda;

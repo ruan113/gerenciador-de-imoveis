@@ -5,17 +5,39 @@
  */
 package limite.relatorios;
 
+import Model.Corretor;
+import Model.Imovel;
+import Model.Proposta;
+import Model.Util;
+import Model.Visita;
+import controle.ControlePrincipal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JComboBox;
+
 /**
  *
  * @author hyper
  */
 public class formValorPorCorretorPeriodo extends javax.swing.JPanel {
 
+    ControlePrincipal ctrPrincipal;
+
     /**
-     * Creates new form formValorPorCorretorPeriodo
+     * Creates new form formImoveisVendedor
      */
-    public formValorPorCorretorPeriodo() {
+    public formValorPorCorretorPeriodo(ControlePrincipal ctrPrincipal) {
+        this.ctrPrincipal = ctrPrincipal;
         initComponents();
+
+        this.taResultado.setText("Escolha um periodo de tempo usando as opções acima!");
+        //------------Inicializa comboboxes das datas------------
+        inicializaDatas();
+        //------------Inicializa combobox dos imoveis------------
+        cbCorretores.removeAllItems();
+        for (Corretor c : this.ctrPrincipal.ctrCorretor.getListaAll()) {
+            cbCorretores.addItem(c.getNome());
+        }
     }
 
     /**
@@ -27,73 +49,74 @@ public class formValorPorCorretorPeriodo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        btSearch = new javax.swing.JButton();
+        cbDiaInicial = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        taResultado = new javax.swing.JTextArea();
+        cbMesInicial = new javax.swing.JComboBox<>();
+        cbAnoInicial = new javax.swing.JComboBox<>();
+        cbDiaFinal = new javax.swing.JComboBox<>();
+        cbMesFinal = new javax.swing.JComboBox<>();
+        cbAnoFinal = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox<>();
+        cbCorretores = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jButton1.setText("Procurar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btSearch.setText("Procurar");
+        btSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btSearchActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbDiaInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbDiaInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbDiaInicialActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taResultado.setColumns(20);
+        taResultado.setLineWrap(true);
+        taResultado.setRows(5);
+        jScrollPane1.setViewportView(taResultado);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cbMesInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMesInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cbMesInicialActionPerformed(evt);
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cbAnoInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbAnoInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cbAnoInicialActionPerformed(evt);
             }
         });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+        cbDiaFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbDiaFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
+                cbDiaFinalActionPerformed(evt);
             }
         });
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+        cbMesFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMesFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
+                cbMesFinalActionPerformed(evt);
             }
         });
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+        cbAnoFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbAnoFinal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
+                cbAnoFinalActionPerformed(evt);
             }
         });
 
@@ -105,10 +128,10 @@ public class formValorPorCorretorPeriodo extends javax.swing.JPanel {
 
         jLabel4.setText("Escolha uns dos corretores cadastrados:");
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox7.addActionListener(new java.awt.event.ActionListener() {
+        cbCorretores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCorretores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox7ActionPerformed(evt);
+                cbCorretoresActionPerformed(evt);
             }
         });
 
@@ -124,35 +147,32 @@ public class formValorPorCorretorPeriodo extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox7, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbCorretores, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbDiaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(68, 68, 68)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbMesInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbAnoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel2)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(cbMesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(cbAnoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(cbDiaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addGap(142, 142, 142))))))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(15, 15, 15))
@@ -167,74 +187,171 @@ public class formValorPorCorretorPeriodo extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1))))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)))
+                    .addComponent(btSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbDiaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMesInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbAnoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbDiaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMesFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbAnoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(5, 5, 5)
-                .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    public void inicializaDatas() {
+        //Remove itens existentes
+        this.cbDiaInicial.removeAllItems();
+        this.cbMesInicial.removeAllItems();
+        this.cbAnoInicial.removeAllItems();
+        this.cbDiaFinal.removeAllItems();
+        this.cbMesFinal.removeAllItems();
+        this.cbAnoFinal.removeAllItems();
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        for (int ano = this.ctrPrincipal.ctrImovel.getMenorAno();
+                ano <= this.ctrPrincipal.ctrImovel.getMaiorAno() + 1;
+                ano++) {
+            cbAnoFinal.addItem(String.valueOf(ano));
+            cbAnoInicial.addItem(String.valueOf(ano));
+        }
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        for (int mes = 1; mes <= 12; mes++) {
+            cbMesFinal.addItem(String.valueOf(mes));
+            cbMesInicial.addItem(String.valueOf(mes));
+        }
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+        for (int dia = 1; dia <= 31; dia++) {
+            cbDiaFinal.addItem(String.valueOf(dia));
+            cbDiaInicial.addItem(String.valueOf(dia));
+        }
+    }
 
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
+    public void ajustaDatas(JComboBox cbDia, JComboBox cbMes) {
+        if (cbDia.getSelectedIndex() == -1 || cbMes.getSelectedIndex() == -1) {
+            return;
+        }
+        //Recebe por referencia o que deve ser mudado
+        cbDia.removeAllItems();
+        int aux = Integer.parseInt((String) cbMes.getSelectedItem());
 
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
+        int diaMax = 31;
+        if (aux == 1 || aux == 3 || aux == 5 || aux == 7 || aux == 8 || aux == 10 || aux == 12) {
+            diaMax = 31;
+        } else {
+            if (aux == 2) {
+                diaMax = 28;
+            } else {
+                diaMax = 30;
+            }
+        }
 
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
+        for (int dia = 1; dia <= diaMax; dia++) {
+            cbDia.addItem(String.valueOf(dia));
+        }
+    }
 
-    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
+    private void geraResultados() {
+        Corretor corretor = this.ctrPrincipal.ctrCorretor.getCorretorByNome(
+            (String) cbCorretores.getSelectedItem()
+        );
+        
+        Calendar dataInicial = Calendar.getInstance();
+        dataInicial.set(Calendar.DAY_OF_MONTH, Integer.parseInt((String) cbDiaInicial.getSelectedItem()));
+        dataInicial.set(Calendar.MONTH, Integer.parseInt((String) cbMesInicial.getSelectedItem()));
+        dataInicial.set(Calendar.YEAR, Integer.parseInt((String) cbAnoInicial.getSelectedItem()));
+
+        Calendar dataFinal = Calendar.getInstance();
+        dataFinal.set(Calendar.DAY_OF_MONTH, Integer.parseInt((String) cbDiaFinal.getSelectedItem()));
+        dataFinal.set(Calendar.MONTH, Integer.parseInt((String) cbMesFinal.getSelectedItem()));
+        dataFinal.set(Calendar.YEAR, Integer.parseInt((String) cbAnoFinal.getSelectedItem()));
+
+        double valorTotal = 0;
+
+        for (Imovel i : this.ctrPrincipal.ctrImovel.getLista()) {
+            if (i.getEstado().equals(Util.VENDIDO)) {
+                for (Proposta p : i.getListaPropostas()) {
+                    if (p.getEstado().equals(Util.ACEITA)
+                            && p.getCorretor().getNome().equals(
+                                    (String) cbCorretores.getSelectedItem()
+                            )
+                            && p.getData().after(dataInicial)
+                            && p.getData().before(dataFinal)) {
+                        valorTotal += p.getValor() * (corretor.getPercCorretagem()/100);
+                    }
+                }
+            }
+        }
+
+        if (valorTotal == 0) {
+            taResultado.setText("O corretor "
+                    + ((String) cbCorretores.getSelectedItem())
+                    + " não obteve ganhos durante este periodo!");
+            return;
+        }
+
+        taResultado.setText("O rendimento total do corretor ("
+                + corretor.getPercCorretagem()+"% de corretagem) "
+                + ((String) cbCorretores.getSelectedItem())
+                + " foi de "
+                + valorTotal
+                + " reais durante o periodo selecionado.");
+    }
+
+    private void btSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchActionPerformed
+        geraResultados();
+    }//GEN-LAST:event_btSearchActionPerformed
+
+    private void cbDiaInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDiaInicialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox7ActionPerformed
+    }//GEN-LAST:event_cbDiaInicialActionPerformed
+
+    private void cbMesInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesInicialActionPerformed
+        ajustaDatas(cbDiaInicial, cbMesInicial);
+    }//GEN-LAST:event_cbMesInicialActionPerformed
+
+    private void cbAnoInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAnoInicialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAnoInicialActionPerformed
+
+    private void cbDiaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDiaFinalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbDiaFinalActionPerformed
+
+    private void cbMesFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesFinalActionPerformed
+        ajustaDatas(cbDiaFinal, cbMesFinal);
+    }//GEN-LAST:event_cbMesFinalActionPerformed
+
+    private void cbAnoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAnoFinalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAnoFinalActionPerformed
+
+    private void cbCorretoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCorretoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCorretoresActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
+    private javax.swing.JButton btSearch;
+    private javax.swing.JComboBox<String> cbAnoFinal;
+    private javax.swing.JComboBox<String> cbAnoInicial;
+    private javax.swing.JComboBox<String> cbCorretores;
+    private javax.swing.JComboBox<String> cbDiaFinal;
+    private javax.swing.JComboBox<String> cbDiaInicial;
+    private javax.swing.JComboBox<String> cbMesFinal;
+    private javax.swing.JComboBox<String> cbMesInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea taResultado;
     // End of variables declaration//GEN-END:variables
 }

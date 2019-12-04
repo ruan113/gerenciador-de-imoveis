@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 public class ControleImovel {
@@ -75,8 +76,9 @@ public class ControleImovel {
                 aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo()
                         + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
                         + i.getVendedor().getNome() + "\nPreço: " + i.getPreco()
+                        + "\nComissão: " + i.getComissao() + "%"
                         + "\nData de Cadastro: " + i.getDataInclusao().get(Calendar.DAY_OF_MONTH)
-                        + "/" + i.getDataInclusao().get(Calendar.MONTH) + "/"
+                        + "/" + (i.getDataInclusao().get(Calendar.MONTH) + 1) + "/"
                         + i.getDataInclusao().get(Calendar.YEAR);
                 lista.add(aux);//adiciona imovel no ArrayList lita
             }
@@ -90,7 +92,7 @@ public class ControleImovel {
                             + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
                             + i.getVendedor().getNome() + "\nPreço: " + i.getPreco()
                             + "\nData de Cadastro: " + i.getDataInclusao().get(Calendar.DAY_OF_MONTH)
-                            + "/" + i.getDataInclusao().get(Calendar.MONTH) + "/"
+                            + "/" + (i.getDataInclusao().get(Calendar.MONTH) + 1) + "/"
                             + i.getDataInclusao().get(Calendar.YEAR);
                     lista.add(aux);//adiciona imovel no ArrayList lita
                 }
@@ -138,6 +140,16 @@ public class ControleImovel {
             if (i.getDataInclusao().get(Calendar.YEAR) > maior) {
                 maior = i.getDataInclusao().get(Calendar.YEAR);
             }
+            for (Proposta p : i.getListaPropostas()) {
+                if (p.getData().get(Calendar.YEAR) > maior) {
+                    maior = p.getData().get(Calendar.YEAR);
+                }
+            }
+            for (Visita v : i.getListaVisitas()) {
+                if (v.getData().get(Calendar.YEAR) > maior) {
+                    maior = v.getData().get(Calendar.YEAR);
+                }
+            }
         }
 
         return maior;
@@ -171,32 +183,139 @@ public class ControleImovel {
 
     public ArrayList<Imovel> getByTipo(String tipo) {
         ArrayList<Imovel> imoveis = new ArrayList<Imovel>();
-        
+
         for (Imovel i : this.listaImoveis) {
             if (i.getTipo().equals(tipo)) {
                 imoveis.add(i);
             }
         }
-        
+
         return imoveis;
     }
 
-    public void addVisita(int codigo, Visita visita){
-        for(Imovel i : listaImoveis){
-            if(i.getCodigo() == codigo){
+    public void addVisita(int codigo, Visita visita) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
                 i.agendaVisita(visita);
             }
         }
-    }
-    
-    public void cancelarVisita(int codigo, Visita visita){
-        for(Imovel i : listaImoveis){
-            if(i.getCodigo() == codigo){
-                i.cancelaVisita(visita);
-            }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Visita cadastrada com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    public void cancelarVisita(int codigo, Visita visita) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                for (Visita v : i.getListaVisitas()) {
+                    if (v.getComprador().getNome() == visita.getComprador().getNome()
+                            && v.getCorretor().getNome() == visita.getCorretor().getNome()
+                            && compareDatas(visita.getData(), v.getData())) {
+                        i.cancelaVisita(v);
+                    }
+                }
+            }
+        }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Visita cancelada com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void realizarVisita(int codigo, Visita visita) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                for (Visita v : i.getListaVisitas()) {
+                    if (v.getComprador().getNome() == visita.getComprador().getNome()
+                            && v.getCorretor().getNome() == visita.getCorretor().getNome()
+                            && compareDatas(visita.getData(), v.getData())) {
+                        i.realizaVisita(v);
+                    }
+                }
+            }
+        }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Visita cancelada com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void addProposta(int codigo, Proposta proposta) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                i.registraProposta(proposta);
+            }
+        }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Proposta cadastrada com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void aceitaProposta(int codigo, Proposta proposta) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                for (Proposta p : i.getListaPropostas()) {
+                    if (p.getComprador().getNome() == proposta.getComprador().getNome()
+                            && p.getCorretor().getNome() == proposta.getCorretor().getNome()
+                            && compareDatas(proposta.getData(), p.getData())) {
+                        i.aceitaProposta(p);
+                    }
+                }
+            }
+        }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Proposta aceita com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void rejeitarProposta(int codigo, Proposta proposta) {
+        for (Imovel i : listaImoveis) {
+            if (i.getCodigo() == codigo) {
+                for (Proposta p : i.getListaPropostas()) {
+                    if (p.getComprador().getNome() == proposta.getComprador().getNome()
+                            && p.getCorretor().getNome() == proposta.getCorretor().getNome()
+                            && compareDatas(proposta.getData(), p.getData())) {
+                        i.rejeitaProposta(p);
+                    }
+                }
+            }
+        }
+        //Grava edição em arquivo
+        try {
+            this.serializaImovel();
+            JOptionPane.showMessageDialog(null, "Proposta cancelada com sucesso!!!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao gravar arquivo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public boolean compareDatas(Calendar data1, Calendar data2) {
+        if (data1.get(Calendar.DAY_OF_MONTH) == data2.get(Calendar.DAY_OF_MONTH)
+                && data1.get(Calendar.MONTH) == data2.get(Calendar.MONTH)
+                && data1.get(Calendar.YEAR) == data2.get(Calendar.YEAR)) {
+            return true;
+        }
+        return false;
+    }
+
     //metodo para serializa os imoveis, para salvar em arquivo
     private void serializaImovel() throws Exception {
         //Stream de gravação

@@ -3,7 +3,7 @@ package Model;
 import java.io.Serializable;
 import java.util.*;
 
-public class Imovel implements Serializable{
+public class Imovel implements Serializable {
 
     private int codigo;
     private String tipo;
@@ -30,10 +30,10 @@ public class Imovel implements Serializable{
         this.estado = Util.ATIVO;
     }
 
-    public void addArquivoFoto(String arquivoFoto){
-        this.arquivoFoto= arquivoFoto;
+    public void addArquivoFoto(String arquivoFoto) {
+        this.arquivoFoto = arquivoFoto;
     }
-    
+
     public boolean agendaVisita(Visita v) {
         if (this.estado.equalsIgnoreCase(Util.INATIVO)
                 || this.estado.equalsIgnoreCase(Util.VENDIDO)) {
@@ -81,6 +81,12 @@ public class Imovel implements Serializable{
         return false;
     }
 
+    //MUDANÇA FEITA POR FALTA DELA NO CÓDIGO ORIGINAL------------
+    public void rejeitaProposta(Proposta p) {
+        p.setEstado(Util.REJEITADA);
+    }
+    //-----------------------------------------------------------
+
     public int getCodigo() {
         return codigo;
     }
@@ -92,8 +98,8 @@ public class Imovel implements Serializable{
     public String getDescricao() {
         return descricao;
     }
-    
-    public String getArquivoFoto(){
+
+    public String getArquivoFoto() {
         return arquivoFoto;
     }
 

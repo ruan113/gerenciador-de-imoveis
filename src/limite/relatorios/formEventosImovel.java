@@ -1,4 +1,3 @@
-
 package limite.relatorios;
 
 import Model.Imovel;
@@ -10,7 +9,9 @@ import java.util.Calendar;
 import javax.swing.JComboBox;
 
 public class formEventosImovel extends javax.swing.JPanel {
+
     ControlePrincipal ctrPrincipal;
+
     public formEventosImovel(ControlePrincipal ctrPrincipal) {
         this.ctrPrincipal = ctrPrincipal;
         initComponents();
@@ -35,7 +36,7 @@ public class formEventosImovel extends javax.swing.JPanel {
         this.cbAnoFinal.removeAllItems();
 
         for (int ano = this.ctrPrincipal.ctrImovel.getMenorAno();
-                ano <= this.ctrPrincipal.ctrImovel.getMaiorAno();
+                ano <= this.ctrPrincipal.ctrImovel.getMaiorAno() + 1;
                 ano++) {
             cbAnoFinal.addItem(String.valueOf(ano));
             cbAnoInicial.addItem(String.valueOf(ano));
@@ -93,7 +94,6 @@ public class formEventosImovel extends javax.swing.JPanel {
 
         ArrayList<String> resultado = new ArrayList<String>();
 
-        resultado.add("\n----------Visitas----------");
         for (Visita v : visitas) {
             if (v.getData().after(dataInicial) && v.getData().before(dataFinal)) {
                 String aux = "Comprador: " + v.getComprador().getNome()
@@ -101,23 +101,35 @@ public class formEventosImovel extends javax.swing.JPanel {
                         + "\nEstado: " + v.getEstado()
                         + "\nData: " + v.getData().get(Calendar.DAY_OF_MONTH)
                         + "/" + (v.getData().get(Calendar.MONTH) + 1) + "/"
-                        + v.getData().get(Calendar.YEAR);
+                        + v.getData().get(Calendar.YEAR) + "\n\n";
                 resultado.add(aux);
             }
         }
+        int contador = resultado.size();
+        // Se não aumentar nada, não há visitas
+        if (contador != 0) {
+            resultado.add(0, "----------Visitas----------\n\n");
+        }
 
-        resultado.add("\n----------Propostas----------");
         for (Proposta p : propostas) {
             if (p.getData().after(dataInicial) && p.getData().before(dataFinal)) {
-                String aux = "\nComprador: " + p.getComprador().getNome()
+                String aux = "Comprador: " + p.getComprador().getNome()
                         + "\nCorretor: " + p.getCorretor().getNome()
                         + "\nValor: " + p.getValor()
                         + "\nEstado: " + p.getEstado()
                         + "\nData: " + p.getData().get(Calendar.DAY_OF_MONTH)
                         + "/" + (p.getData().get(Calendar.MONTH) + 1) + "/"
-                        + p.getData().get(Calendar.YEAR);
+                        + p.getData().get(Calendar.YEAR) + "\n\n";
                 resultado.add(aux);//adiciona imovel no ArrayList lita
             }
+        }
+        // Se não aumentar nada ate, não há propostas
+        if (contador != resultado.size()) {
+            resultado.add(0, "----------Propostas----------\n\n");
+        }
+
+        if (resultado.size() == 0) {
+            resultado.add("Não há visitas nem propostas para este imóvel!");
         }
 
         String result = "";
@@ -197,6 +209,7 @@ public class formEventosImovel extends javax.swing.JPanel {
             }
         });
 
+        taResultado.setEditable(false);
         taResultado.setColumns(20);
         taResultado.setRows(5);
         jScrollPane2.setViewportView(taResultado);

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import javax.swing.*;
 
 public class LimiteVendedor extends JFrame implements ActionListener {
+
     //controlador
     ControleVendedor ctrVendedor;
     //Panel
@@ -18,10 +19,12 @@ public class LimiteVendedor extends JFrame implements ActionListener {
     JButton btConsultar;
     //sera usado para editar ou excluir imóvel
     int index = 0;
+
     //contrutor
     public LimiteVendedor(ControleVendedor ctrVendedor) {
         this.ctrVendedor = ctrVendedor;//Armazena o controlador Principal numa variavel
     }
+
     //listener para os botões cadastrar e consultar
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -31,6 +34,7 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         if (e.getSource().equals(btConsultar)) {
         }
     }
+
     //metodo para exibir o formulário de cadastro de imóveis
     void cadastraVendedor() {
         //Inicializa Tela
@@ -146,7 +150,7 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         JButton bCadastrar = new JButton("Cadastrar Novo Vendedor");
         JButton bEditar = new JButton("Editar Vendedor");
         JButton bExcluir = new JButton("Excluir Vendedor");
-       
+
         bCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,16 +161,28 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         bEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frConsultar.dispose();
-                editaVendedor(index);
+                if (index != -1) {
+                    frConsultar.dispose();
+                    editaVendedor(index);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Selecione pelomenos um item na lista!",
+                            "Error!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         bExcluir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frConsultar.dispose();
-                ctrVendedor.removeLista(index);
-                listaVendedores();
+                if (index != -1) {
+                    frConsultar.dispose();
+                    ctrVendedor.removeLista(index);
+                    listaVendedores();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Selecione pelomenos um item na lista!",
+                            "Error!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -240,7 +256,7 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         JTextField tfEmail = new JTextField(v.getEmail());
         JTextField tfFone = new JTextField(v.getFone());
         JTextField tfContatoPref = new JTextField(v.getContatoPref());
-        
+
         //Inicializa Labels
         JLabel lbLogo = new JLabel("DADOS DO VENDEDOR");
         JLabel lbNome = new JLabel("Nome*:");
@@ -248,7 +264,7 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         JLabel lbEmail = new JLabel("E-mail*:");
         JLabel lbFone = new JLabel("Fone*:");
         JLabel lbContatoPref = new JLabel("Contato Preferencial*:");
-        
+
         //Inicializa Botões
         JButton btSubmit = new JButton("Cadastrar");
         JButton btCancelar = new JButton("Cancelar");
@@ -259,19 +275,19 @@ public class LimiteVendedor extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (tfNome.getText().equals("")
-                        || tfCpf.getText().equals("") 
+                        || tfCpf.getText().equals("")
                         || tfEmail.getText().equals("")
-                        || tfFone.getText().equals("") 
+                        || tfFone.getText().equals("")
                         || tfContatoPref.getText().equals("")) {
-                  
+
                 } else {
                     Vendedor novoVendedor
                             = new Vendedor(
-                            tfNome.getText(),
-                            tfCpf.getText(),
-                            tfEmail.getText(),
-                            tfFone.getText(), 
-                            tfContatoPref.getText()
+                                    tfNome.getText(),
+                                    tfCpf.getText(),
+                                    tfEmail.getText(),
+                                    tfFone.getText(),
+                                    tfContatoPref.getText()
                             );
                     ctrVendedor.editaLista(index, novoVendedor);
                     frEdita.dispose();
@@ -300,7 +316,7 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         tfEmail.setBounds(0, 175, 500, 25);
         tfFone.setBounds(0, 225, 500, 25);
         tfContatoPref.setBounds(0, 275, 500, 25);
-        
+
         btSubmit.setBounds(200, 375, 100, 25);
         btCancelar.setBounds(200, 425, 100, 25);
         //-AdiÃ§Ã£o dos elementos no painel-//
@@ -309,14 +325,14 @@ public class LimiteVendedor extends JFrame implements ActionListener {
         pEdita.add(tfEmail);
         pEdita.add(tfFone);
         pEdita.add(tfContatoPref);
-     
+
         pEdita.add(lbLogo);
         pEdita.add(lbNome);
         pEdita.add(lbCpf);
         pEdita.add(lbEmail);
         pEdita.add(lbFone);
         pEdita.add(lbContatoPref);
-        
+
         pEdita.add(btSubmit);
         pEdita.add(btCancelar);
         //Inicializa textos ja cadastrados
