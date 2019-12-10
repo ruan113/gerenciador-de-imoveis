@@ -5,8 +5,10 @@ import Model.Util;
 import controle.ControlePrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
 public class CatalogoImoveis extends javax.swing.JFrame {
@@ -99,7 +101,7 @@ public class CatalogoImoveis extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         imovelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imovelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/DSC02976.JPG"))); // NOI18N
+        imovelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/placeholder.jpg"))); // NOI18N
         imovelImage.setText("jLabel3");
         imovelImage.setMaximumSize(new java.awt.Dimension(200, 200));
         imovelImage.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -134,8 +136,8 @@ public class CatalogoImoveis extends javax.swing.JFrame {
                     .addComponent(btAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btProposta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(imovelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(imovelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -242,12 +244,17 @@ public class CatalogoImoveis extends javax.swing.JFrame {
 
     private void listaImoveisValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaImoveisValueChanged
         if (listaImoveis.getSelectedIndex() > -1) {
+            Imovel i = this.ctrPrincipal.ctrImovel.getByCodigo(
+                    Integer.parseInt(listaImoveis.getSelectedValue()));
             btAgenda.setEnabled(true);
             btProposta.setEnabled(true);
-            atualizaExibidor(this.ctrPrincipal.ctrImovel.getByCodigo(
-                    Integer.parseInt(listaImoveis.getSelectedValue())
-            ));
-        }else{
+            atualizaExibidor(i);
+            
+            File f = new File(i.getArquivoFoto());
+            if (f.exists()) {
+                imovelImage.setIcon(new ImageIcon(i.getArquivoFoto()));
+            }
+        } else {
             btAgenda.setEnabled(false);
             btProposta.setEnabled(false);
         }

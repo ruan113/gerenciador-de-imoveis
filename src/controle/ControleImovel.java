@@ -74,8 +74,9 @@ public class ControleImovel {
             for (Imovel i : listaImoveis) {
                 //verifica se o tipo do imóvel selecionado no LimitiImovel.listarImoveis existe
                 aux = "Codigo: " + i.getCodigo() + "\nTipo: " + i.getTipo()
-                        + "\nDescrição: " + i.getDescricao() + "\nNome Do Proprietário: "
-                        + i.getVendedor().getNome() + "\nPreço: " + i.getPreco()
+                        + "\nDescrição: " + i.getDescricao() 
+                        + "\nVendedor: " + i.getVendedor().getNome() 
+                        + "\nPreço: " + i.getPreco()
                         + "\nComissão: " + i.getComissao() + "%"
                         + "\nData de Cadastro: " + i.getDataInclusao().get(Calendar.DAY_OF_MONTH)
                         + "/" + (i.getDataInclusao().get(Calendar.MONTH) + 1) + "/"
